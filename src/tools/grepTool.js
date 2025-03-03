@@ -8,17 +8,17 @@ import { getConfig } from '../config.js';
  * Tool for searching file contents for patterns
  * @param {Object} args - Tool arguments
  * @param {string} args.pattern - Pattern to search for
- * @param {string} [args.glob='**/*.{ js, jsx, ts, tsx, md, txt, json } '] - Glob pattern for files to search
-    * @param { boolean } [args.caseSensitive = false] - Whether to perform case -sensitive search
-        * @param { boolean } [args.regex = false] - Whether to interpret the pattern as a regex
-            * @returns { Promise < Array >} - Search results
-                */
+ * @param {string} [args.glob] - Glob pattern for files to search
+ * @param {boolean} [args.caseSensitive=false] - Whether to perform case-sensitive search
+ * @param {boolean} [args.regex=false] - Whether to interpret the pattern as a regex
+ * @returns {Promise<Array>} - Search results
+ */
 export async function grepTool(args) {
     if (!args.pattern) {
         throw new Error('Pattern is required');
     }
 
-    const glob = args.glob || '**/*.{js,jsx,ts,tsx,md,txt,json}';
+    const glob = args.glob || "**/*.{js,jsx,ts,tsx,md,txt,json}";
     const caseSensitive = args.caseSensitive || false;
     const useRegex = args.regex || false;
 

@@ -121,8 +121,8 @@ function shouldIgnore(filePath, ignorePatterns) {
     return ignorePatterns.some(pattern => {
         // Handle glob patterns
         if (pattern.includes('*')) {
-            const regex = new RegExp('^' + pattern.replace(/\*/g, '.*') + ');
-      return regex.test(filePath);
+            const regex = new RegExp('^' + pattern.replace(/\*/g, '.*') + '$');
+            return regex.test(filePath);
         }
 
         // Handle directory patterns

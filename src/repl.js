@@ -242,15 +242,15 @@ async function handleSlashCommand(command, { rl, conversation, ollama }) {
         case 'help':
             console.log(chalk.bold('\nAvailable commands:'));
             console.log(`
-${chalk.blue('/help')} - Show this help message
-${chalk.blue('/clear')} - Clear conversation history
-${chalk.blue('/compact')} - Compact conversation to save context space
-${chalk.blue('/cost')} - Show token usage statistics
-${chalk.blue('/config')} - Manage configuration
-${chalk.blue('/init')} - Initialize project with a OLLAMA_CODE.md guide
-${chalk.blue('/models')} - List available Ollama models
-${chalk.blue('/exit')} - Exit Ollama Code
-`);
+  ${chalk.blue('/help')} - Show this help message
+  ${chalk.blue('/clear')} - Clear conversation history
+  ${chalk.blue('/compact')} - Compact conversation to save context space
+  ${chalk.blue('/cost')} - Show token usage statistics
+  ${chalk.blue('/config')} - Manage configuration
+  ${chalk.blue('/init')} - Initialize project with a OLLAMA_CODE.md guide
+  ${chalk.blue('/models')} - List available Ollama models
+  ${chalk.blue('/exit')} - Exit Ollama Code
+  `);
             break;
 
         case 'clear':
@@ -278,16 +278,16 @@ ${chalk.blue('/exit')} - Exit Ollama Code
 
             console.log(chalk.bold('\nEstimated token usage:'));
             console.log(`
-Input tokens: ~${inputTokens}
-Output tokens: ~${outputTokens}
-Total tokens: ~${inputTokens + outputTokens}
-`);
+  Input tokens: ~${inputTokens}
+  Output tokens: ~${outputTokens}
+  Total tokens: ~${inputTokens + outputTokens}
+  `);
             break;
 
         case 'init':
             console.log(chalk.blue('Initializing project with OLLAMA_CODE.md...'));
             // Generate a project guide
-            const spinner = ora('Generating project guide...').start();
+            const initSpinner = ora('Generating project guide...').start();
             try {
                 const response = await ollama.chatCompletion({
                     messages: [
@@ -308,17 +308,17 @@ Total tokens: ~${inputTokens + outputTokens}
                 const fs = await import('fs/promises');
                 await fs.writeFile('OLLAMA_CODE.md', guideContent);
 
-                spinner.succeed('Generated OLLAMA_CODE.md guide');
+                initSpinner.succeed('Generated OLLAMA_CODE.md guide');
             } catch (error) {
-                spinner.fail(`Failed to generate guide: ${error.message}`);
+                initSpinner.fail(`Failed to generate guide: ${error.message}`);
             }
             break;
 
         case 'models':
-            const spinner = ora('Fetching available models...').start();
+            const modelsSpinner = ora('Fetching available models...').start();
             try {
                 const models = await ollama.listModels();
-                spinner.succeed('Available models:');
+                modelsSpinner.succeed('Available models:');
 
                 if (models.length === 0) {
                     console.log(chalk.yellow('\nNo models found. Make sure Ollama is running.'));
@@ -330,7 +330,7 @@ Total tokens: ~${inputTokens + outputTokens}
                     });
                 }
             } catch (error) {
-                spinner.fail(`Failed to fetch models: ${error.message}`);
+                modelsSpinner.fail(`Failed to fetch models: ${error.message}`);
                 console.log(chalk.red('\nMake sure Ollama is running on http://localhost:11434'));
             }
             break;
@@ -343,3 +343,4 @@ Total tokens: ~${inputTokens + outputTokens}
             console.log(chalk.yellow(`Unknown command: ${cmd}`));
             console.log(chalk.gray('Type /help to see available commands'));
     }
+}
